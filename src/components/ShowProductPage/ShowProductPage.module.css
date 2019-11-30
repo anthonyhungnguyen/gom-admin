@@ -1,3 +1,4 @@
 .ShowProductPage {
 	display: flex;
+	flex-wrap: wrap;
 }

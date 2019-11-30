@@ -27,6 +27,8 @@ const ShowProductPage = () => {
 						filen={product.imageName}
 						id={product.id}
 						key={product.id}
+						className={ProductCard}
+						fetchAllProducts={fetchAllProducts}
 					/>
 				))}
 			</Suspense>

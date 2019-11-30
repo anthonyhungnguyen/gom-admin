@@ -5,7 +5,7 @@ import firebase from '../../../utils/firebase'
 import FileUploader from 'react-firebase-file-uploader'
 import { Line } from 'rc-progress'
 
-const ProductCard = ({ des, pri, filen, id }) => {
+const ProductCard = ({ des, pri, filen, id, fetchAllProducts }) => {
 	const [description, setDescription] = useState(des)
 	const [price, setPrice] = useState(pri)
 	const [progress, setProgress] = useState(0)
@@ -55,6 +55,17 @@ const ProductCard = ({ des, pri, filen, id }) => {
 			.set({ imageName: filename, description: description, price: price })
 		setProgress(100)
 		setProgress(0)
+	}
+
+	const handleDelete = () => {
+		firebase
+			.firestore()
+			.collection('goms')
+			.doc(id)
+			.delete()
+			.then(() => {
+				fetchAllProducts()
+			})
 	}
 	return (
 		<section className={classes.ProductCard}>
@@ -111,7 +122,13 @@ const ProductCard = ({ des, pri, filen, id }) => {
 								onProgress={handleProgress}
 							/>
 						</label>
-
+						<Button
+							type='submit'
+							primary
+							label='Xóa'
+							onClick={handleDelete}
+							style={{ margin: '0.5rem' }}
+						/>
 						<Button
 							type='submit'
 							primary
