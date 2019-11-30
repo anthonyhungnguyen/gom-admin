@@ -1,0 +1,23 @@
+.ProductCard {
+	max-width: 500px;
+	max-height: 600px;
+	width: auto;
+	height: auto;
+	background: #fff;
+	display: flex;
+	flex-direction: column;
+	box-shadow: 0 0 88px 0 rgba(0, 0, 0, 0.1607843137);
+	overflow: hidden;
+	margin: 1rem;
+}
+
+.ProductCard img {
+	max-width: 400px;
+	max-height: 400px;
+	width: 100%;
+	height: 100%;
+}
+
+.mainContent {
+	position: relative;
+}

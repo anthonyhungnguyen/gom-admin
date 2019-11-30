@@ -1,0 +1,20 @@
+.AddProduct form {
+	display: inline-block;
+	margin: auto;
+}
+
+.AddProduct {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.AddProduct button {
+	margin: auto;
+	display: block;
+}
+
+.AddProduct input {
+	margin: 0.5rem 0;
+}
+
