@@ -30,12 +30,16 @@ module.exports = {
 				],
 				include: /\.module\.css$/
 			},
+
 			{
 				test: /\.css$/,
 				use: ['style-loader', 'css-loader'],
 				exclude: /\.module\.css$/
 			}
 		]
+	},
+	devServer: {
+		historyApiFallback: true
 	},
 	plugins: [new HtmlWebPackPlugin({ template: './public/index.html' })]
 }

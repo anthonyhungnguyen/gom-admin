@@ -5,7 +5,7 @@
 	box-shadow: 0 0 88px 0 rgba(0, 0, 0, 0.1607843137);
 	overflow: hidden;
 	margin: 1rem;
-	flex: 1 16%;
+	flex: 0 1 22%;
 }
 
 .ProductCard img {
