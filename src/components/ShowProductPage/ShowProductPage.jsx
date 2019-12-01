@@ -1,7 +1,7 @@
-import React, { useEffect, useState, Suspense, lazy } from 'react'
+import React, { useEffect, useState } from 'react'
 import firebase from '../../utils/firebase'
 import classes from './ShowProductPage.module.css'
-const ProductCard = lazy(() => import('./ProductCard/ProductCard'))
+import ProductCard from './ProductCard/ProductCard.jsx'
 
 const ShowProductPage = () => {
 	const [products, setProducts] = useState([])
@@ -19,19 +19,17 @@ const ShowProductPage = () => {
 	}
 	return (
 		<section className={classes.ShowProductPage}>
-			<Suspense fallback={<div>Loading...</div>}>
-				{products.map(product => (
-					<ProductCard
-						des={product.description}
-						pri={product.price}
-						filen={product.imageName}
-						id={product.id}
-						key={product.id}
-						className={ProductCard}
-						fetchAllProducts={fetchAllProducts}
-					/>
-				))}
-			</Suspense>
+			{products.map(product => (
+				<ProductCard
+					des={product.description}
+					pri={product.price}
+					filen={product.imageName}
+					id={product.id}
+					key={product.id}
+					className={ProductCard}
+					fetchAllProducts={fetchAllProducts}
+				/>
+			))}
 		</section>
 	)
 }

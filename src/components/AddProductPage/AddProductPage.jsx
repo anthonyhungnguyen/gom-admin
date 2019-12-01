@@ -4,8 +4,6 @@ import classes from './AddProductPage.module.css'
 import FileUploader from 'react-firebase-file-uploader'
 import firebase from '../../utils/firebase'
 import { Line } from 'rc-progress'
-// import { toast } from 'react-toastify'
-// import 'react-toastify/dist/ReactToastify.css'
 import cogoToast from 'cogo-toast'
 const AddProductPage = () => {
 	const [description, setDescription] = useState('')

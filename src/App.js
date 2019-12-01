@@ -1,8 +1,8 @@
 import React from 'react'
-import Nav from './components/Nav/Nav'
+import Nav from './components/Nav/Nav.jsx'
 import { Route } from 'react-router-dom'
-import AddProductPage from './components/AddProductPage/AddProductPage'
-import ShowProductPage from './components/ShowProductPage/ShowProductPage'
+import AddProductPage from './components/AddProductPage/AddProductPage.jsx'
+import ShowProductPage from './components/ShowProductPage/ShowProductPage.jsx'
 
 const App = () => {
 	return (
