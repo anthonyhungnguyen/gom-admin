@@ -1,10 +1,10 @@
 import React, { useState } from 'react'
-import { Form, TextInput, Button } from 'grommet'
+import { Form, TextInput } from 'grommet'
 import classes from './AddProductPage.module.css'
-import FileUploader from 'react-firebase-file-uploader'
+import { Button, Alert } from 'rsuite'
+import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton'
 import firebase from '../../utils/firebase'
 import { Line } from 'rc-progress'
-import cogoToast from 'cogo-toast'
 const AddProductPage = () => {
 	const [description, setDescription] = useState('')
 	const [price, setPrice] = useState('')
@@ -14,7 +14,7 @@ const AddProductPage = () => {
 
 	const handleUploadStart = () => {
 		setProgress(0)
-		cogoToast.loading('Đang tải...')
+		Alert.info('Đang tải...')
 	}
 
 	const handleProgress = progress => {
@@ -23,12 +23,11 @@ const AddProductPage = () => {
 
 	const handleUploadError = err => {
 		console.log(err)
-		cogoToast.warn('Error')
+		Alert.warning('Lỗi')
 	}
 
 	const handleUploadSuccess = async thisFileName => {
 		setProgress(100)
-		cogoToast.success('Tải xong')
 		if (filename) {
 			firebase
 				.storage()
@@ -40,11 +39,18 @@ const AddProductPage = () => {
 			.storage()
 			.ref(`images/${thisFileName}`)
 			.getDownloadURL()
-			.then(url => setImageURL(url))
+			.then(url => {
+				setImageURL(url)
+				Alert.success('Tải xong')
+			})
 	}
 
 	const handleSubmit = e => {
 		e.preventDefault()
+		if (description === '' || price === '' || imageURL === '') {
+			Alert.error('Điền đủ thông tin')
+			return
+		}
 		firebase
 			.firestore()
 			.collection('goms')
@@ -55,7 +61,7 @@ const AddProductPage = () => {
 				setImageURL('')
 				setProgress(0)
 				setPrice('')
-				cogoToast.success('Thêm gốm thành công!')
+				Alert.success('Thêm gốm thành công!')
 			})
 	}
 
@@ -77,22 +83,8 @@ const AddProductPage = () => {
 						onChange={event => setPrice(event.target.value)}
 					/>
 					<section style={{ display: 'flex', justifyContent: 'space-between' }}>
-						<label
-							style={{
-								display: 'inline-block',
-								boxSizing: 'border-box',
-								border: '2px solid #7D4CDB',
-								cursor: 'pointer',
-								padding: '4px 22px',
-								fontSize: '18px',
-								borderRadius: '18px',
-								backgroundColor: '#7D4CDB',
-								color: '#f8f8f8',
-								margin: '0.5rem'
-							}}
-						>
-							Thêm ảnh
-							<FileUploader
+						<Button type='submit' color='cyan'>
+							<CustomUploadButton
 								hidden
 								accept='image/*'
 								name='filename'
@@ -102,10 +94,14 @@ const AddProductPage = () => {
 								onUploadError={handleUploadError}
 								onUploadSuccess={handleUploadSuccess}
 								onProgress={handleProgress}
-							/>
-						</label>
+							>
+								Chọn ảnh
+							</CustomUploadButton>
+						</Button>
 
-						<Button type='submit' primary label='Đăng' onClick={handleSubmit} />
+						<Button type='submit' color='cyan' onClick={handleSubmit}>
+							Đăng
+						</Button>
 					</section>
 				</Form>
 			</section>

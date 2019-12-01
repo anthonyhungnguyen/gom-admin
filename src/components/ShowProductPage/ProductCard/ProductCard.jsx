@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import classes from './ProductCard.module.css'
-import { Form, TextInput, Button } from 'grommet'
+import { Form, TextInput } from 'grommet'
 import firebase from '../../../utils/firebase'
-import FileUploader from 'react-firebase-file-uploader'
+import CustomUploadButton from 'react-firebase-file-uploader/lib/CustomUploadButton'
 import { Line } from 'rc-progress'
+import { Button, Alert, Loader } from 'rsuite'
 
 const ProductCard = ({ des, pri, filen, id, fetchAllProducts }) => {
 	const [description, setDescription] = useState(des)
@@ -44,7 +45,10 @@ const ProductCard = ({ des, pri, filen, id, fetchAllProducts }) => {
 			.storage()
 			.ref(`images/${thisFileName}`)
 			.getDownloadURL()
-			.then(url => setImageURL(url))
+			.then(url => {
+				setImageURL(url)
+				Alert.success('Thay hình thành công!')
+			})
 	}
 
 	const handleSubmit = () => {
@@ -54,6 +58,7 @@ const ProductCard = ({ des, pri, filen, id, fetchAllProducts }) => {
 			.doc(id)
 			.set({ imageName: filename, description: description, price: price })
 		setProgress(100)
+		Alert.success('Đã cập nhật')
 		setProgress(0)
 	}
 
@@ -64,12 +69,17 @@ const ProductCard = ({ des, pri, filen, id, fetchAllProducts }) => {
 			.doc(id)
 			.delete()
 			.then(() => {
+				Alert.success('Xóa thành công')
 				fetchAllProducts()
 			})
 	}
 	return (
 		<section className={classes.ProductCard}>
-			{imageURL && <img src={imageURL} alt='loading...' />}
+			{imageURL ? (
+				<img src={imageURL} alt='loading...' />
+			) : (
+				<Loader backdrop content='loading...' vertical />
+			)}
 			<section className={classes.mainContent}>
 				<section style={{ margin: 'auto', width: 200 }}>
 					<Line percent={progress} strokeWidth='4' />
@@ -88,29 +98,8 @@ const ProductCard = ({ des, pri, filen, id, fetchAllProducts }) => {
 						style={{ margin: '1rem auto', display: 'inline-block' }}
 					/>
 					<section style={{ display: 'flex', justifyContent: 'space-between' }}>
-						<label
-							style={{
-								display: 'inline-block',
-								boxSizing: 'border-box',
-								border: '2px solid #7D4CDB',
-								outline: 'none',
-								overflow: 'visible',
-								cursor: 'pointer',
-								padding: '4px 22px',
-								fontSize: '18px',
-								borderRadius: '18px',
-								backgroundColor: '#7D4CDB',
-								color: '#f8f8f8',
-								margin: '0.5rem',
-								transitionProperty:
-									'color, background-color, border-color, box-shadow',
-								transitionDuration: '0.1s',
-								transitionTimingFunction: 'ease-in-out',
-								textAlign: 'center'
-							}}
-						>
-							Thay đổi hình ảnh
-							<FileUploader
+						<Button type='submit' color='cyan'>
+							<CustomUploadButton
 								hidden
 								accept='image/*'
 								name='filename'
@@ -120,22 +109,16 @@ const ProductCard = ({ des, pri, filen, id, fetchAllProducts }) => {
 								onUploadError={handleUploadError}
 								onUploadSuccess={handleUploadSuccess}
 								onProgress={handleProgress}
-							/>
-						</label>
-						<Button
-							type='submit'
-							primary
-							label='Xóa'
-							onClick={handleDelete}
-							style={{ margin: '0.5rem' }}
-						/>
-						<Button
-							type='submit'
-							primary
-							label='Thay đổi   '
-							onClick={handleSubmit}
-							style={{ margin: '0.5rem' }}
-						/>
+							>
+								Thay đổi hình ảnh
+							</CustomUploadButton>
+						</Button>
+						<Button type='submit' color='cyan' onClick={handleDelete}>
+							Xóa
+						</Button>
+						<Button type='submit' color='cyan' onClick={handleSubmit}>
+							Cập nhật
+						</Button>
 					</section>
 				</Form>
 			</section>

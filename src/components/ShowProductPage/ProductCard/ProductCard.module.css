@@ -12,6 +12,9 @@
 	max-width: 100%;
 	height: 300px;
 }
+.mainContent {
+	margin: 1rem;
+}
 
 @media (max-width: 920px) {
 	.ProductCard {

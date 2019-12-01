@@ -2,13 +2,16 @@ import React, { useEffect, useState } from 'react'
 import firebase from '../../utils/firebase'
 import classes from './ShowProductPage.module.css'
 import ProductCard from './ProductCard/ProductCard.jsx'
+import { Loader } from 'rsuite'
 
 const ShowProductPage = () => {
 	const [products, setProducts] = useState([])
+	const [isLoading, setIsLoading] = useState(false)
 	useEffect(() => {
 		fetchAllProducts()
 	}, [])
 	const fetchAllProducts = async () => {
+		setIsLoading(true)
 		const db = firebase.firestore()
 		const data = await db.collection('goms').get()
 		const products = data.docs.map(doc => ({
@@ -16,8 +19,11 @@ const ShowProductPage = () => {
 			id: doc.id
 		}))
 		setProducts(products)
+		setIsLoading(false)
 	}
-	return (
+	return isLoading ? (
+		<Loader backdrop content='loading...' vertical />
+	) : (
 		<section className={classes.ShowProductPage}>
 			{products.map(product => (
 				<ProductCard

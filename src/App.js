@@ -3,6 +3,8 @@ import Nav from './components/Nav/Nav.jsx'
 import { Route } from 'react-router-dom'
 import AddProductPage from './components/AddProductPage/AddProductPage.jsx'
 import ShowProductPage from './components/ShowProductPage/ShowProductPage.jsx'
+import { Button, IconButton, ButtonGroup, ButtonToolbar } from 'rsuite'
+import 'rsuite/dist/styles/rsuite-default.css'
 
 const App = () => {
 	return (

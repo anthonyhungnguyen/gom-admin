@@ -31,7 +31,7 @@
 }
 
 .list a {
-	text-decoration: none;
+	text-decoration: none !important;
 	color: black;
 }
 
@@ -41,5 +41,16 @@
 	-o-transition: all 0.3s 0.1s ease;
 	transition: all 0.3s 0.1s ease;
 	background: black;
+	color: white;
+}
+
+.NavButton {
+	background-color: white;
+	color: black;
+	border: 1px solid black;
+}
+
+.NavButton:hover {
+	background-color: black;
 	color: white;
 }
